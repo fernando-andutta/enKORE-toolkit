@@ -1,0 +1,13 @@
+query entriesByTaxa($taxonID: Int) {
+	taxa(where: { taxonID: { _eq: $taxonID } }) {
+		Taxon
+		taxonID
+		TaxonQid
+		entries(where: { isInvasive: { _eq: "INVASIVE" }, taxa: { GBIFstatus: { _eq: "ACCEPTED" } } }) {
+			location {
+				location
+				locationqid
+			}
+		}
+	}
+}

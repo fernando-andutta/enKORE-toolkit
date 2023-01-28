@@ -1,0 +1,1753 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+
+  """measured in seconds"""
+  ttl: Int! = 60
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""ordering argument of a cursor"""
+enum cursor_ordering {
+  """ascending ordering of the cursor"""
+  ASC
+
+  """descending ordering of the cursor"""
+  DESC
+}
+
+"""
+columns and relationships of "entries"
+"""
+type entries {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+
+  """An object relationship"""
+  location: locations
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+
+  """An object relationship"""
+  taxa: taxa
+  taxonID: Int
+}
+
+"""
+aggregated selection of "entries"
+"""
+type entries_aggregate {
+  aggregate: entries_aggregate_fields
+  nodes: [entries!]!
+}
+
+input entries_aggregate_bool_exp {
+  count: entries_aggregate_bool_exp_count
+}
+
+input entries_aggregate_bool_exp_count {
+  arguments: [entries_select_column!]
+  distinct: Boolean
+  filter: entries_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "entries"
+"""
+type entries_aggregate_fields {
+  avg: entries_avg_fields
+  count(columns: [entries_select_column!], distinct: Boolean): Int!
+  max: entries_max_fields
+  min: entries_min_fields
+  stddev: entries_stddev_fields
+  stddev_pop: entries_stddev_pop_fields
+  stddev_samp: entries_stddev_samp_fields
+  sum: entries_sum_fields
+  var_pop: entries_var_pop_fields
+  var_samp: entries_var_samp_fields
+  variance: entries_variance_fields
+}
+
+"""
+order by aggregate values of table "entries"
+"""
+input entries_aggregate_order_by {
+  avg: entries_avg_order_by
+  count: order_by
+  max: entries_max_order_by
+  min: entries_min_order_by
+  stddev: entries_stddev_order_by
+  stddev_pop: entries_stddev_pop_order_by
+  stddev_samp: entries_stddev_samp_order_by
+  sum: entries_sum_order_by
+  var_pop: entries_var_pop_order_by
+  var_samp: entries_var_samp_order_by
+  variance: entries_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "entries"
+"""
+input entries_arr_rel_insert_input {
+  data: [entries_insert_input!]!
+}
+
+"""aggregate avg on columns"""
+type entries_avg_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by avg() on columns of table "entries"
+"""
+input entries_avg_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "entries". All fields are combined with a logical 'AND'.
+"""
+input entries_bool_exp {
+  FirstRecord_orig: String_comparison_exp
+  Group: String_comparison_exp
+  Location: String_comparison_exp
+  Taxon: String_comparison_exp
+  _and: [entries_bool_exp!]
+  _not: entries_bool_exp
+  _or: [entries_bool_exp!]
+  degreeOfEstablishment: String_comparison_exp
+  establishmentMeans: String_comparison_exp
+  eventDate: String_comparison_exp
+  habitat: String_comparison_exp
+  isInvasive: String_comparison_exp
+  location: locations_bool_exp
+  locationID: Int_comparison_exp
+  occurrenceStatus: String_comparison_exp
+  origDB: String_comparison_exp
+  references: String_comparison_exp
+  scientificName: String_comparison_exp
+  taxa: taxa_bool_exp
+  taxonID: Int_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "entries"
+"""
+input entries_inc_input {
+  locationID: Int
+  taxonID: Int
+}
+
+"""
+input type for inserting data into table "entries"
+"""
+input entries_insert_input {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+  location: locations_obj_rel_insert_input
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+  taxa: taxa_obj_rel_insert_input
+  taxonID: Int
+}
+
+"""aggregate max on columns"""
+type entries_max_fields {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+  taxonID: Int
+}
+
+"""
+order by max() on columns of table "entries"
+"""
+input entries_max_order_by {
+  FirstRecord_orig: order_by
+  Group: order_by
+  Location: order_by
+  Taxon: order_by
+  degreeOfEstablishment: order_by
+  establishmentMeans: order_by
+  eventDate: order_by
+  habitat: order_by
+  isInvasive: order_by
+  locationID: order_by
+  occurrenceStatus: order_by
+  origDB: order_by
+  references: order_by
+  scientificName: order_by
+  taxonID: order_by
+}
+
+"""aggregate min on columns"""
+type entries_min_fields {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+  taxonID: Int
+}
+
+"""
+order by min() on columns of table "entries"
+"""
+input entries_min_order_by {
+  FirstRecord_orig: order_by
+  Group: order_by
+  Location: order_by
+  Taxon: order_by
+  degreeOfEstablishment: order_by
+  establishmentMeans: order_by
+  eventDate: order_by
+  habitat: order_by
+  isInvasive: order_by
+  locationID: order_by
+  occurrenceStatus: order_by
+  origDB: order_by
+  references: order_by
+  scientificName: order_by
+  taxonID: order_by
+}
+
+"""
+response of any mutation on the table "entries"
+"""
+type entries_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [entries!]!
+}
+
+"""Ordering options when selecting data from "entries"."""
+input entries_order_by {
+  FirstRecord_orig: order_by
+  Group: order_by
+  Location: order_by
+  Taxon: order_by
+  degreeOfEstablishment: order_by
+  establishmentMeans: order_by
+  eventDate: order_by
+  habitat: order_by
+  isInvasive: order_by
+  location: locations_order_by
+  locationID: order_by
+  occurrenceStatus: order_by
+  origDB: order_by
+  references: order_by
+  scientificName: order_by
+  taxa: taxa_order_by
+  taxonID: order_by
+}
+
+"""
+select columns of table "entries"
+"""
+enum entries_select_column {
+  """column name"""
+  FirstRecord_orig
+
+  """column name"""
+  Group
+
+  """column name"""
+  Location
+
+  """column name"""
+  Taxon
+
+  """column name"""
+  degreeOfEstablishment
+
+  """column name"""
+  establishmentMeans
+
+  """column name"""
+  eventDate
+
+  """column name"""
+  habitat
+
+  """column name"""
+  isInvasive
+
+  """column name"""
+  locationID
+
+  """column name"""
+  occurrenceStatus
+
+  """column name"""
+  origDB
+
+  """column name"""
+  references
+
+  """column name"""
+  scientificName
+
+  """column name"""
+  taxonID
+}
+
+"""
+input type for updating data in table "entries"
+"""
+input entries_set_input {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+  taxonID: Int
+}
+
+"""aggregate stddev on columns"""
+type entries_stddev_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by stddev() on columns of table "entries"
+"""
+input entries_stddev_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type entries_stddev_pop_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by stddev_pop() on columns of table "entries"
+"""
+input entries_stddev_pop_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type entries_stddev_samp_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by stddev_samp() on columns of table "entries"
+"""
+input entries_stddev_samp_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""
+Streaming cursor of the table "entries"
+"""
+input entries_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: entries_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input entries_stream_cursor_value_input {
+  FirstRecord_orig: String
+  Group: String
+  Location: String
+  Taxon: String
+  degreeOfEstablishment: String
+  establishmentMeans: String
+  eventDate: String
+  habitat: String
+  isInvasive: String
+  locationID: Int
+  occurrenceStatus: String
+  origDB: String
+  references: String
+  scientificName: String
+  taxonID: Int
+}
+
+"""aggregate sum on columns"""
+type entries_sum_fields {
+  locationID: Int
+  taxonID: Int
+}
+
+"""
+order by sum() on columns of table "entries"
+"""
+input entries_sum_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+input entries_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: entries_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: entries_set_input
+  where: entries_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type entries_var_pop_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by var_pop() on columns of table "entries"
+"""
+input entries_var_pop_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""aggregate var_samp on columns"""
+type entries_var_samp_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by var_samp() on columns of table "entries"
+"""
+input entries_var_samp_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""aggregate variance on columns"""
+type entries_variance_fields {
+  locationID: Float
+  taxonID: Float
+}
+
+"""
+order by variance() on columns of table "entries"
+"""
+input entries_variance_order_by {
+  locationID: order_by
+  taxonID: order_by
+}
+
+"""
+columns and relationships of "locations"
+"""
+type locations {
+  countrycode: String
+
+  """An array relationship"""
+  entries(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): [entries!]!
+
+  """An aggregate relationship"""
+  entries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): entries_aggregate!
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""
+aggregated selection of "locations"
+"""
+type locations_aggregate {
+  aggregate: locations_aggregate_fields
+  nodes: [locations!]!
+}
+
+"""
+aggregate fields of "locations"
+"""
+type locations_aggregate_fields {
+  avg: locations_avg_fields
+  count(columns: [locations_select_column!], distinct: Boolean): Int!
+  max: locations_max_fields
+  min: locations_min_fields
+  stddev: locations_stddev_fields
+  stddev_pop: locations_stddev_pop_fields
+  stddev_samp: locations_stddev_samp_fields
+  sum: locations_sum_fields
+  var_pop: locations_var_pop_fields
+  var_samp: locations_var_samp_fields
+  variance: locations_variance_fields
+}
+
+"""aggregate avg on columns"""
+type locations_avg_fields {
+  island: Float
+  locationid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "locations". All fields are combined with a logical 'AND'.
+"""
+input locations_bool_exp {
+  _and: [locations_bool_exp!]
+  _not: locations_bool_exp
+  _or: [locations_bool_exp!]
+  countrycode: String_comparison_exp
+  entries: entries_bool_exp
+  entries_aggregate: entries_aggregate_bool_exp
+  gadm_name: String_comparison_exp
+  glonaf_country: String_comparison_exp
+  island: Int_comparison_exp
+  iso3: String_comparison_exp
+  keywords: String_comparison_exp
+  location: String_comparison_exp
+  locationid: Int_comparison_exp
+  locationqid: String_comparison_exp
+  tdwg1: String_comparison_exp
+  tdwg1_name: String_comparison_exp
+  tdwg4_name: String_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "locations"
+"""
+input locations_inc_input {
+  island: Int
+  locationid: Int
+}
+
+"""
+input type for inserting data into table "locations"
+"""
+input locations_insert_input {
+  countrycode: String
+  entries: entries_arr_rel_insert_input
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""aggregate max on columns"""
+type locations_max_fields {
+  countrycode: String
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""aggregate min on columns"""
+type locations_min_fields {
+  countrycode: String
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""
+response of any mutation on the table "locations"
+"""
+type locations_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [locations!]!
+}
+
+"""
+input type for inserting object relation for remote table "locations"
+"""
+input locations_obj_rel_insert_input {
+  data: locations_insert_input!
+}
+
+"""Ordering options when selecting data from "locations"."""
+input locations_order_by {
+  countrycode: order_by
+  entries_aggregate: entries_aggregate_order_by
+  gadm_name: order_by
+  glonaf_country: order_by
+  island: order_by
+  iso3: order_by
+  keywords: order_by
+  location: order_by
+  locationid: order_by
+  locationqid: order_by
+  tdwg1: order_by
+  tdwg1_name: order_by
+  tdwg4_name: order_by
+}
+
+"""
+select columns of table "locations"
+"""
+enum locations_select_column {
+  """column name"""
+  countrycode
+
+  """column name"""
+  gadm_name
+
+  """column name"""
+  glonaf_country
+
+  """column name"""
+  island
+
+  """column name"""
+  iso3
+
+  """column name"""
+  keywords
+
+  """column name"""
+  location
+
+  """column name"""
+  locationid
+
+  """column name"""
+  locationqid
+
+  """column name"""
+  tdwg1
+
+  """column name"""
+  tdwg1_name
+
+  """column name"""
+  tdwg4_name
+}
+
+"""
+input type for updating data in table "locations"
+"""
+input locations_set_input {
+  countrycode: String
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""aggregate stddev on columns"""
+type locations_stddev_fields {
+  island: Float
+  locationid: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type locations_stddev_pop_fields {
+  island: Float
+  locationid: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type locations_stddev_samp_fields {
+  island: Float
+  locationid: Float
+}
+
+"""
+Streaming cursor of the table "locations"
+"""
+input locations_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: locations_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input locations_stream_cursor_value_input {
+  countrycode: String
+  gadm_name: String
+  glonaf_country: String
+  island: Int
+  iso3: String
+  keywords: String
+  location: String
+  locationid: Int
+  locationqid: String
+  tdwg1: String
+  tdwg1_name: String
+  tdwg4_name: String
+}
+
+"""aggregate sum on columns"""
+type locations_sum_fields {
+  island: Int
+  locationid: Int
+}
+
+input locations_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: locations_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: locations_set_input
+  where: locations_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type locations_var_pop_fields {
+  island: Float
+  locationid: Float
+}
+
+"""aggregate var_samp on columns"""
+type locations_var_samp_fields {
+  island: Float
+  locationid: Float
+}
+
+"""aggregate variance on columns"""
+type locations_variance_fields {
+  island: Float
+  locationid: Float
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "entries"
+  """
+  delete_entries(
+    """filter the rows which have to be deleted"""
+    where: entries_bool_exp!
+  ): entries_mutation_response
+
+  """
+  delete data from the table: "locations"
+  """
+  delete_locations(
+    """filter the rows which have to be deleted"""
+    where: locations_bool_exp!
+  ): locations_mutation_response
+
+  """
+  delete data from the table: "taxa"
+  """
+  delete_taxa(
+    """filter the rows which have to be deleted"""
+    where: taxa_bool_exp!
+  ): taxa_mutation_response
+
+  """
+  insert data into the table: "entries"
+  """
+  insert_entries(
+    """the rows to be inserted"""
+    objects: [entries_insert_input!]!
+  ): entries_mutation_response
+
+  """
+  insert a single row into the table: "entries"
+  """
+  insert_entries_one(
+    """the row to be inserted"""
+    object: entries_insert_input!
+  ): entries
+
+  """
+  insert data into the table: "locations"
+  """
+  insert_locations(
+    """the rows to be inserted"""
+    objects: [locations_insert_input!]!
+  ): locations_mutation_response
+
+  """
+  insert a single row into the table: "locations"
+  """
+  insert_locations_one(
+    """the row to be inserted"""
+    object: locations_insert_input!
+  ): locations
+
+  """
+  insert data into the table: "taxa"
+  """
+  insert_taxa(
+    """the rows to be inserted"""
+    objects: [taxa_insert_input!]!
+  ): taxa_mutation_response
+
+  """
+  insert a single row into the table: "taxa"
+  """
+  insert_taxa_one(
+    """the row to be inserted"""
+    object: taxa_insert_input!
+  ): taxa
+
+  """
+  update data of the table: "entries"
+  """
+  update_entries(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: entries_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: entries_set_input
+
+    """filter the rows which have to be updated"""
+    where: entries_bool_exp!
+  ): entries_mutation_response
+
+  """
+  update multiples rows of table: "entries"
+  """
+  update_entries_many(
+    """updates to execute, in order"""
+    updates: [entries_updates!]!
+  ): [entries_mutation_response]
+
+  """
+  update data of the table: "locations"
+  """
+  update_locations(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: locations_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: locations_set_input
+
+    """filter the rows which have to be updated"""
+    where: locations_bool_exp!
+  ): locations_mutation_response
+
+  """
+  update multiples rows of table: "locations"
+  """
+  update_locations_many(
+    """updates to execute, in order"""
+    updates: [locations_updates!]!
+  ): [locations_mutation_response]
+
+  """
+  update data of the table: "taxa"
+  """
+  update_taxa(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: taxa_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: taxa_set_input
+
+    """filter the rows which have to be updated"""
+    where: taxa_bool_exp!
+  ): taxa_mutation_response
+
+  """
+  update multiples rows of table: "taxa"
+  """
+  update_taxa_many(
+    """updates to execute, in order"""
+    updates: [taxa_updates!]!
+  ): [taxa_mutation_response]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type query_root {
+  """An array relationship"""
+  entries(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): [entries!]!
+
+  """An aggregate relationship"""
+  entries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): entries_aggregate!
+
+  """
+  fetch data from the table: "locations"
+  """
+  locations(
+    """distinct select on columns"""
+    distinct_on: [locations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [locations_order_by!]
+
+    """filter the rows returned"""
+    where: locations_bool_exp
+  ): [locations!]!
+
+  """
+  fetch aggregated fields from the table: "locations"
+  """
+  locations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [locations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [locations_order_by!]
+
+    """filter the rows returned"""
+    where: locations_bool_exp
+  ): locations_aggregate!
+
+  """
+  fetch data from the table: "taxa"
+  """
+  taxa(
+    """distinct select on columns"""
+    distinct_on: [taxa_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [taxa_order_by!]
+
+    """filter the rows returned"""
+    where: taxa_bool_exp
+  ): [taxa!]!
+
+  """
+  fetch aggregated fields from the table: "taxa"
+  """
+  taxa_aggregate(
+    """distinct select on columns"""
+    distinct_on: [taxa_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [taxa_order_by!]
+
+    """filter the rows returned"""
+    where: taxa_bool_exp
+  ): taxa_aggregate!
+}
+
+type subscription_root {
+  """An array relationship"""
+  entries(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): [entries!]!
+
+  """An aggregate relationship"""
+  entries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): entries_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "entries"
+  """
+  entries_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [entries_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): [entries!]!
+
+  """
+  fetch data from the table: "locations"
+  """
+  locations(
+    """distinct select on columns"""
+    distinct_on: [locations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [locations_order_by!]
+
+    """filter the rows returned"""
+    where: locations_bool_exp
+  ): [locations!]!
+
+  """
+  fetch aggregated fields from the table: "locations"
+  """
+  locations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [locations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [locations_order_by!]
+
+    """filter the rows returned"""
+    where: locations_bool_exp
+  ): locations_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "locations"
+  """
+  locations_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [locations_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: locations_bool_exp
+  ): [locations!]!
+
+  """
+  fetch data from the table: "taxa"
+  """
+  taxa(
+    """distinct select on columns"""
+    distinct_on: [taxa_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [taxa_order_by!]
+
+    """filter the rows returned"""
+    where: taxa_bool_exp
+  ): [taxa!]!
+
+  """
+  fetch aggregated fields from the table: "taxa"
+  """
+  taxa_aggregate(
+    """distinct select on columns"""
+    distinct_on: [taxa_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [taxa_order_by!]
+
+    """filter the rows returned"""
+    where: taxa_bool_exp
+  ): taxa_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "taxa"
+  """
+  taxa_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [taxa_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: taxa_bool_exp
+  ): [taxa!]!
+}
+
+"""
+columns and relationships of "taxa"
+"""
+type taxa {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+
+  """An array relationship"""
+  entries(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): [entries!]!
+
+  """An aggregate relationship"""
+  entries_aggregate(
+    """distinct select on columns"""
+    distinct_on: [entries_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [entries_order_by!]
+
+    """filter the rows returned"""
+    where: entries_bool_exp
+  ): entries_aggregate!
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""
+aggregated selection of "taxa"
+"""
+type taxa_aggregate {
+  aggregate: taxa_aggregate_fields
+  nodes: [taxa!]!
+}
+
+"""
+aggregate fields of "taxa"
+"""
+type taxa_aggregate_fields {
+  avg: taxa_avg_fields
+  count(columns: [taxa_select_column!], distinct: Boolean): Int!
+  max: taxa_max_fields
+  min: taxa_min_fields
+  stddev: taxa_stddev_fields
+  stddev_pop: taxa_stddev_pop_fields
+  stddev_samp: taxa_stddev_samp_fields
+  sum: taxa_sum_fields
+  var_pop: taxa_var_pop_fields
+  var_samp: taxa_var_samp_fields
+  variance: taxa_variance_fields
+}
+
+"""aggregate avg on columns"""
+type taxa_avg_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""
+Boolean expression to filter rows from the table "taxa". All fields are combined with a logical 'AND'.
+"""
+input taxa_bool_exp {
+  GBIFmatchtype: String_comparison_exp
+  GBIFnote: String_comparison_exp
+  GBIFstatus: String_comparison_exp
+  GBIFstatus_Synonym: String_comparison_exp
+  GBIFtaxonRank: String_comparison_exp
+  GBIFusageKey: Int_comparison_exp
+  Taxon: String_comparison_exp
+  TaxonQid: String_comparison_exp
+  Taxon_orig: String_comparison_exp
+  _and: [taxa_bool_exp!]
+  _not: taxa_bool_exp
+  _or: [taxa_bool_exp!]
+  class: String_comparison_exp
+  entries: entries_bool_exp
+  entries_aggregate: entries_aggregate_bool_exp
+  family: String_comparison_exp
+  genus: String_comparison_exp
+  kingdom: String_comparison_exp
+  order: String_comparison_exp
+  phylum: String_comparison_exp
+  scientificName: String_comparison_exp
+  species: String_comparison_exp
+  taxonID: Int_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "taxa"
+"""
+input taxa_inc_input {
+  GBIFusageKey: Int
+  taxonID: Int
+}
+
+"""
+input type for inserting data into table "taxa"
+"""
+input taxa_insert_input {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+  entries: entries_arr_rel_insert_input
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""aggregate max on columns"""
+type taxa_max_fields {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""aggregate min on columns"""
+type taxa_min_fields {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""
+response of any mutation on the table "taxa"
+"""
+type taxa_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [taxa!]!
+}
+
+"""
+input type for inserting object relation for remote table "taxa"
+"""
+input taxa_obj_rel_insert_input {
+  data: taxa_insert_input!
+}
+
+"""Ordering options when selecting data from "taxa"."""
+input taxa_order_by {
+  GBIFmatchtype: order_by
+  GBIFnote: order_by
+  GBIFstatus: order_by
+  GBIFstatus_Synonym: order_by
+  GBIFtaxonRank: order_by
+  GBIFusageKey: order_by
+  Taxon: order_by
+  TaxonQid: order_by
+  Taxon_orig: order_by
+  class: order_by
+  entries_aggregate: entries_aggregate_order_by
+  family: order_by
+  genus: order_by
+  kingdom: order_by
+  order: order_by
+  phylum: order_by
+  scientificName: order_by
+  species: order_by
+  taxonID: order_by
+}
+
+"""
+select columns of table "taxa"
+"""
+enum taxa_select_column {
+  """column name"""
+  GBIFmatchtype
+
+  """column name"""
+  GBIFnote
+
+  """column name"""
+  GBIFstatus
+
+  """column name"""
+  GBIFstatus_Synonym
+
+  """column name"""
+  GBIFtaxonRank
+
+  """column name"""
+  GBIFusageKey
+
+  """column name"""
+  Taxon
+
+  """column name"""
+  TaxonQid
+
+  """column name"""
+  Taxon_orig
+
+  """column name"""
+  class
+
+  """column name"""
+  family
+
+  """column name"""
+  genus
+
+  """column name"""
+  kingdom
+
+  """column name"""
+  order
+
+  """column name"""
+  phylum
+
+  """column name"""
+  scientificName
+
+  """column name"""
+  species
+
+  """column name"""
+  taxonID
+}
+
+"""
+input type for updating data in table "taxa"
+"""
+input taxa_set_input {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""aggregate stddev on columns"""
+type taxa_stddev_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type taxa_stddev_pop_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type taxa_stddev_samp_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""
+Streaming cursor of the table "taxa"
+"""
+input taxa_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: taxa_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input taxa_stream_cursor_value_input {
+  GBIFmatchtype: String
+  GBIFnote: String
+  GBIFstatus: String
+  GBIFstatus_Synonym: String
+  GBIFtaxonRank: String
+  GBIFusageKey: Int
+  Taxon: String
+  TaxonQid: String
+  Taxon_orig: String
+  class: String
+  family: String
+  genus: String
+  kingdom: String
+  order: String
+  phylum: String
+  scientificName: String
+  species: String
+  taxonID: Int
+}
+
+"""aggregate sum on columns"""
+type taxa_sum_fields {
+  GBIFusageKey: Int
+  taxonID: Int
+}
+
+input taxa_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: taxa_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: taxa_set_input
+  where: taxa_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type taxa_var_pop_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""aggregate var_samp on columns"""
+type taxa_var_samp_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}
+
+"""aggregate variance on columns"""
+type taxa_variance_fields {
+  GBIFusageKey: Float
+  taxonID: Float
+}

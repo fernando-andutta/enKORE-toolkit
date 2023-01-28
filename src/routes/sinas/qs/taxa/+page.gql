@@ -1,0 +1,7 @@
+query taxa {
+	taxa {
+		Taxon
+		taxonID
+		TaxonQid
+	}
+}

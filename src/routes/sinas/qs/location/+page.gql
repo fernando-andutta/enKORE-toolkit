@@ -1,0 +1,6 @@
+query countries {
+	locations {
+		countrycode
+		location
+	}
+}

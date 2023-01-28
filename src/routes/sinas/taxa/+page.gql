@@ -1,0 +1,13 @@
+query entriesByTaxaList {
+	taxa(distinct_on: GBIFusageKey, where: { GBIFstatus: { _eq: "ACCEPTED" } }, limit: 100) {
+		Taxon
+		entries(where: { isInvasive: { _eq: "INVASIVE" } }) {
+			location {
+				locationid
+				location
+				locationqid
+			}
+			Taxon
+		}
+	}
+}

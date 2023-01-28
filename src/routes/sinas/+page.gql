@@ -1,0 +1,15 @@
+query SinASEntries {
+	entries(where: { isInvasive: { _eq: "INVASIVE" } }) {
+		taxa {
+			taxonID
+			Taxon
+			GBIFusageKey
+		}
+		location {
+			locationid
+			location
+			locationqid
+			island
+		}
+	}
+}

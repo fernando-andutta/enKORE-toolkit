@@ -1,0 +1,13 @@
+query allEntriesByLocation {
+	locations {
+		location
+		locationqid
+		entries(where: { isInvasive: { _eq: "INVASIVE" }, taxa: { GBIFstatus: { _eq: "ACCEPTED" } } }) {
+			taxa {
+				Taxon
+				taxonID
+				TaxonQid
+			}
+		}
+	}
+}
